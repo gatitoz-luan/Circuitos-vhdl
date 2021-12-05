@@ -10,6 +10,5 @@ end fulladder;
 architecture fa1 of fulladder is
 begin
   S <= (A xor B) xor (Cin);
-  Cout <= (())
-  
-  continuar o projeto
+  Cout <= ((A xor B) and Cin) or (A and B);
+end fa1;
