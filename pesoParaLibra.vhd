@@ -3,12 +3,15 @@ use IEEE.Std_Logic_1164.all;
 
 entity principal is
     port (X: in std_logic_vector(7 downto 0);
-          HEX0, HEX1, HEX2: out std_logic_vector(6 downto 0));
+          HEX0, HEX1, HEX2: out std_logic_vector(6 downto 0);
+          sel: in std_logic);
 end principal;
 
 architecture weightconv of principal is
-    signal DOBRO, UMQUARTO, EXPRESSAORESULT, BCDNUM: std_logic_vector(11 downto 0);
-    
+    signal DOBRO, UMQUARTO, LIBRAS, BCDNUM: std_logic_vector(11 downto 0);
+    signal lbsBCD, kgBCD: std_logic_vector(11 downto 0);
+    signal lbs0, lbs1, lbs2, kg0, kg1, kg2: std_logic_vector(6 downto 0);
+
     component soma8 is
         port(A: in std_logic_vector(7 downto 0);
              B: in std_logic_vector(7 downto 0);
@@ -40,18 +43,36 @@ begin
     
     somatotal: soma8 port map(A => DOBRO(7 downto 0),
                               B => UMQUARTO(7 downto 0),
-                              S => EXPRESSAORESULT(7 downto 0));
-                              
-    binarioparabcd: binbcd port map(bin_in => EXPRESSAORESULT(7 downto 0),
-                                    bcd_out => BCDNUM(11 downto 0));
+                              S => LIBRAS(7 downto 0));
+    
+    -- Formate meu visor em libras
+    lbsbinarioparabcd: binbcd port map(bin_in => LIBRAS(7 downto 0),
+                                    bcd_out => lbsBCD(11 downto 0));
                                     
-    VISORHEX0: bcd7seg port map(bcd_in => BCDNUM(3 downto 0),
-                                out_7seg => HEX0(6 downto 0));
+    lbsVISORHEX0: bcd7seg port map(bcd_in => lbsBCD(3 downto 0),
+                                out_7seg => lbs0(6 downto 0));
                                 
-    VISORHEX1: bcd7seg port map(bcd_in => BCDNUM(7 downto 4),
-                               out_7seg => HEX1(6 downto 0));
+    lbsVISORHEX1: bcd7seg port map(bcd_in => lbsBCD(7 downto 4),
+                               out_7seg => lbs1(6 downto 0));
 
-    VISORHEX2: bcd7seg port map(bcd_in => BCDNUM(11 downto 8),
-                                out_7seg => HEX2(6 downto 0));
+    lbsVISORHEX2: bcd7seg port map(bcd_in => lbsBCD(11 downto 8),
+                                   out_7seg => lbs2(6 downto 0));
+
+    -- Formate meu visor em binário
+    kgbinarioparabcd: binbcd port map(bin_in => X(7 downto 0),
+                                    bcd_out => kgBCD(11 downto 0));
+                                    
+    kgVISORHEX0: bcd7seg port map(bcd_in => kgBCD(3 downto 0),
+                                out_7seg => kg0(6 downto 0));
+                                
+    kgVISORHEX1: bcd7seg port map(bcd_in => kgBCD(7 downto 4),
+                               out_7seg => kg1(6 downto 0));
+
+    kgVISORHEX2: bcd7seg port map(bcd_in => kgBCD(11 downto 8),
+                                   out_7seg => kg2(6 downto 0));
+
+    HEX0 <= lbs0 when sel = '1' else kg0;
+    HEX1 <= lbs1 when sel = '1' else kg1;
+    HEX2 <= lbs2 when sel = '1' else kg2;
 
 end weightconv;
