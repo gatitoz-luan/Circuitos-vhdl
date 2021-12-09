@@ -1,12 +1,12 @@
 library IEEE;
 use IEEE.Std_Logic_1164.all;
 
-entity kgtolibras is
+entity principal is
     port (X: in std_logic_vector(7 downto 0);
-          HEX0, HEX1, HEX2: out std_logic_vector(6 downto 0);
-end kgtolibras;
+          HEX0, HEX1, HEX2: out std_logic_vector(6 downto 0));
+end principal;
 
-architecture weightconv of kgtolibras is
+architecture weightconv of principal is
     signal DOBRO, UMQUARTO, EXPRESSAORESULT, BCDNUM: std_logic_vector(11 downto 0);
     
     component soma8 is
