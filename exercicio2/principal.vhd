@@ -58,7 +58,7 @@ begin
     lbsVISORHEX2: bcd7seg port map(bcd_in => lbsBCD(11 downto 8),
                                    out_7seg => lbs2(6 downto 0));
 
-    -- Formate meu visor em binário
+    -- Formate meu visor em kg
     kgbinarioparabcd: binbcd port map(bin_in => X(7 downto 0),
                                     bcd_out => kgBCD(11 downto 0));
                                     
