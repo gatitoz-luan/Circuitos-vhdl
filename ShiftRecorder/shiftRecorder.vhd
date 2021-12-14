@@ -5,12 +5,11 @@ entity shiftRecorder is
   port (
    D0: in std_logic;
    clock: in std_logic;
-   Q0, Q1, Q2, Q3: out std_logic);
+   RES0, RES1, RES2, RES3: out std_logic);
 end shiftRecorder;
 
-
 architecture behv of shiftRecorder is
- signal D: std_logic;
+ signal Q0, Q1, Q2, Q3: std_logic;
  
  component flipFlopD is
   port(CLK: in std_logic;
@@ -34,4 +33,8 @@ architecture behv of shiftRecorder is
   fourthFlipFlopD: flipFlopD port map(CLK => clock,
                                       D => Q2,
                                       Q => Q3);
+    RES0 <= Q0;
+    RES1 <= Q1;
+    RES2 <= Q2;
+    RES3 <= Q3; -- to port map
 end behv;
