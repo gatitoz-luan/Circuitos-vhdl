@@ -25,4 +25,5 @@ begin
     X <= (not A and D) or (not A and C) or (not A and B);
     Y <= (not C and not D);
     Z <= (not A and not B) or (not A and not C and not D);
+    
 end circuito_logico;
