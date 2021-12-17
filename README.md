@@ -1,2 +1,2 @@
 # DigitalCircuits
-Ciircuitos em vhdl
+Circuitos em vhdl, orientado pela Pela matéria de Circuitos da UFSC
